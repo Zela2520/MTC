@@ -1,0 +1,24 @@
+.main__content {
+    gap: 10px;
+}
+
+.round__button {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+}
+
+.timer__button {
+    background: linear-gradient(90deg, #3b82f6, #9333ea, #ec4899);
+}
+
+.startButton {
+    @extend .timer__button;
+    background: linear-gradient(90deg, #34d399, #059669, #065f46);
+}
+
+.stopButton {
+    @extend .timer__button;
+    background: linear-gradient(90deg, #f87171, #dc2626, #b91c1c);
+}
+  
