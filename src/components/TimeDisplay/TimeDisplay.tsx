@@ -2,7 +2,7 @@ import styles from './TimeDisplay.module.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import { reducerGetTime, reducerGetIsActive } from '../../redux/selectors';
 import { incrementTime } from '../../redux/timerSlice';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { formatTime } from '../../utils/formateTime';
 
 interface Props {
@@ -13,18 +13,22 @@ export const Time: React.FC<Props> = () => {
     const time = useSelector(reducerGetTime);
     const isActive = useSelector(reducerGetIsActive);
     const dispatch = useDispatch();
+    const timerRef = useRef<number | null>(null);
 
     useEffect(() => {
-        let timer = 0;
-
         if (isActive) {
-            timer = setInterval(() => {
+            const tick = () => {
                 dispatch(incrementTime());
-            }, 1000);
+                timerRef.current = setTimeout(tick, 1000);
+            };
+
+            tick();
         }
 
         return () => {
-            clearInterval(timer);
+            if (timerRef.current) {
+                clearTimeout(timerRef.current);
+            }
         };
     }, [isActive]);
 
