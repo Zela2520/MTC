@@ -1,12 +1,12 @@
 import { Message } from './components/Message/Message';
-import { Timer } from './components/Timer/Timer';
+import { Main } from './components/Main/Main';
 
 function App() {
     return (
         <>
             <main className="indents-reset app flex col">
                 <Message delay={3000} />
-                <Timer initialValue={0} />
+                <Main initialValue={0} />
             </main>
         </>
     );

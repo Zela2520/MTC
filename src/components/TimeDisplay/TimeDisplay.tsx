@@ -1,13 +1,18 @@
-import React, { useContext } from 'react';
 import styles from './TimeDisplay.module.scss';
-import { TimerContext } from '../Context/Context';
+import { useInterval } from '../../hooks/useInterval/useInterval';
+import { useDispatch, useSelector } from 'react-redux';
+import { reducerGetTime, reducerGetIsActive } from '../../redux/selectors';
+import { incrementTime } from '../../redux/timerSlice';
+import { useEffect } from 'react';
 
 interface Props {
     initialValue?: number;
 }
 
 export const Time: React.FC<Props> = () => {
-    const timerContext = useContext(TimerContext);
+    const time = useSelector(reducerGetTime);
+    const isActive = useSelector(reducerGetIsActive);
+    const dispatch = useDispatch();
 
     const formatTime = (time: number): string => {
         const minutes = Math.floor(time / 60);
@@ -18,11 +23,23 @@ export const Time: React.FC<Props> = () => {
             .padStart(2, '0')}`;
     };
 
+    useEffect(() => {
+        let timer = 0;
+
+        if (isActive) {
+            timer = setInterval(() => {
+                dispatch(incrementTime());
+            }, 1000);
+        }
+
+        return () => {
+            clearInterval(timer);
+        };
+    }, [isActive]);
+
     return (
         <div>
-            <h1 className={styles.timer__text}>
-                {formatTime(timerContext?.time || 0)}
-            </h1>
+            <h1 className={styles.timer__text}>{formatTime(time)}</h1>
         </div>
     );
 };

@@ -1,35 +1,21 @@
-import { createContext, useContext, useEffect, useState } from 'react';
-import styles from './Timer.module.scss';
+import styles from './Main.module.scss';
 import classNames from 'classnames';
 import { UiButton } from '../../uikit/Button/Button';
 import { Time } from '../TimeDisplay/TimeDisplay';
-import { TimerContext, TimerContextProvider } from '../Context/Context';
+import { TimerContextProvider } from '../Context/Context';
+import { useDispatch } from 'react-redux';
+import { resetTime, startTime, stopTime } from '../../redux/timerSlice';
 
 interface Props {
-    initialValue: number;
+    initialValue?: number;
 }
 
-export const Timer: React.FC<Props> = ({ initialValue }) => {
+export const Main: React.FC<Props> = () => {
     const mainContent = classNames(
         styles.main__content,
         'flex align-items-center justify-content-center w-50'
     );
-
-    const timerContext = useContext(TimerContext);
-
-    useEffect(() => {
-        let timer = 0;
-
-        if (timerContext.isActive) {
-            timer = setTimeout(() => {
-                timerContext.incrementTime();
-            }, 1000);
-        }
-
-        return () => {
-            clearTimeout(timer);
-        };
-    }, [timerContext.isActive]);
+    const dispatch = useDispatch();
 
     return (
         <>
@@ -47,7 +33,9 @@ export const Timer: React.FC<Props> = ({ initialValue }) => {
                         type="button"
                         disabled={false}
                         children={'start'}
-                        onClick={timerContext?.startTimer}
+                        onClick={() => {
+                            dispatch(startTime());
+                        }}
                     />
                     <UiButton
                         variant="contained"
@@ -60,10 +48,14 @@ export const Timer: React.FC<Props> = ({ initialValue }) => {
                         type="button"
                         disabled={false}
                         children={'stop'}
-                        onClick={timerContext?.stopTimer}
+                        onClick={() => {
+                            dispatch(stopTime());
+                        }}
                     />
                     <UiButton
-                        onClick={timerContext?.resetTimer}
+                        onClick={() => {
+                            dispatch(resetTime());
+                        }}
                         disabled={false}
                         children={'reset'}
                         type={'button'}
