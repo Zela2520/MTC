@@ -2,7 +2,6 @@ import styles from './Main.module.scss';
 import classNames from 'classnames';
 import { UiButton } from '../../uikit/Button/Button';
 import { Time } from '../TimeDisplay/TimeDisplay';
-import { TimerContextProvider } from '../Context/Context';
 import { useDispatch } from 'react-redux';
 import { resetTime, startTime, stopTime } from '../../redux/timerSlice';
 
@@ -19,51 +18,49 @@ export const Main: React.FC<Props> = () => {
 
     return (
         <>
-            <TimerContextProvider>
-                <div className={mainContent}>
-                    <Time />
-                    <UiButton
-                        variant="contained"
-                        color="primary"
-                        style={{
-                            borderRadius: '50%',
-                            width: '200px',
-                            height: '200px',
-                        }}
-                        type="button"
-                        disabled={false}
-                        children={'start'}
-                        onClick={() => {
-                            dispatch(startTime());
-                        }}
-                    />
-                    <UiButton
-                        variant="contained"
-                        color="default"
-                        style={{
-                            borderRadius: '50%',
-                            width: '200px',
-                            height: '200px',
-                        }}
-                        type="button"
-                        disabled={false}
-                        children={'stop'}
-                        onClick={() => {
-                            dispatch(stopTime());
-                        }}
-                    />
-                    <UiButton
-                        onClick={() => {
-                            dispatch(resetTime());
-                        }}
-                        disabled={false}
-                        children={'reset'}
-                        type={'button'}
-                        variant="contained"
-                        color="secondary"
-                    />
-                </div>
-            </TimerContextProvider>
+            <div className={mainContent}>
+                <Time />
+                <UiButton
+                    variant="contained"
+                    color="primary"
+                    style={{
+                        borderRadius: '50%',
+                        width: '200px',
+                        height: '200px',
+                    }}
+                    type="button"
+                    disabled={false}
+                    children={'start'}
+                    onClick={() => {
+                        dispatch(startTime());
+                    }}
+                />
+                <UiButton
+                    variant="contained"
+                    color="default"
+                    style={{
+                        borderRadius: '50%',
+                        width: '200px',
+                        height: '200px',
+                    }}
+                    type="button"
+                    disabled={false}
+                    children={'stop'}
+                    onClick={() => {
+                        dispatch(stopTime());
+                    }}
+                />
+                <UiButton
+                    onClick={() => {
+                        dispatch(resetTime());
+                    }}
+                    disabled={false}
+                    children={'reset'}
+                    type={'button'}
+                    variant="contained"
+                    color="secondary"
+                />
+            </div>
         </>
     );
 };
